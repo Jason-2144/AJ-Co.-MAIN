@@ -4,7 +4,6 @@ import {
   ArrowRight, Menu, X, Activity, Zap, BarChart, 
   Layers, Shield, Cpu, Quote, Linkedin, Twitter, Youtube 
 } from 'lucide-react';
-import ChatBot from './components/ChatBot';
 
 const fadeUp = {
   hidden: { opacity: 0, y: 30 },
@@ -590,7 +589,6 @@ export default function App() {
       <TestimonialsSection />
       <FinalCTA />
       <Footer />
-      <ChatBot />
     </div>
   )
 }

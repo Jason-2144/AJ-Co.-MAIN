@@ -1,5 +1,6 @@
+import React, { useState } from 'react';
 import { motion } from 'motion/react';
-import { Linkedin, Twitter } from 'lucide-react';
+import { Linkedin, Twitter, CheckCircle2, Loader2 } from 'lucide-react';
 
 const fadeUp = {
   hidden: { opacity: 0, y: 30 },
@@ -7,6 +8,70 @@ const fadeUp = {
 };
 
 export default function Contact() {
+  const [formData, setFormData] = useState({
+    fullName: '',
+    workEmail: '',
+    companyName: '',
+    companySize: '1–10',
+    situation: "I'm exploring AI for the first time",
+    challenge: ''
+  });
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [errorMsg, setErrorMsg] = useState('');
+  const [leadId, setLeadId] = useState('');
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setErrorMsg('');
+
+    if (!formData.fullName || !formData.workEmail || !formData.companyName) {
+      setErrorMsg('Please fill in all required fields.');
+      return;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.workEmail)) {
+      setErrorMsg('Please enter a valid email address.');
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      // The Webhook URL (User will replace this in .env)
+      const WEBHOOK_URL = import.meta.env.VITE_GOOGLE_WEBHOOK_URL || "YOUR_GOOGLE_APPS_SCRIPT_WEBHOOK_URL";
+      
+      const response = await fetch(WEBHOOK_URL, {
+        method: "POST",
+        headers: {
+            "Content-Type": "text/plain;charset=utf-8",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const result = await response.json();
+      
+      if (result.status === 'success') {
+          setLeadId(result.leadId);
+          setIsSuccess(true);
+      } else {
+          setErrorMsg("Something went wrong while submitting your request. Please try again.");
+      }
+    } catch (error) {
+      console.error(error);
+      setErrorMsg("Something went wrong while submitting your request. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <section className="relative pt-32 pb-32 overflow-hidden bg-[#0A0A0A] flex-grow flex flex-col justify-center">
       <div className="absolute inset-0 hero-gradient opacity-20 pointer-events-none"></div>
@@ -56,54 +121,132 @@ export default function Contact() {
                hidden: { opacity: 0, x: 30 },
                visible: { opacity: 1, x: 0, transition: { duration: 0.8, delay: 0.2, ease: "easeOut" } }
            }}>
-               <form className="glass p-10 rounded-2xl border border-white/10 bg-[#0A0A0A] flex flex-col gap-6" onSubmit={(e) => e.preventDefault()}>
-                  <div className="grid grid-cols-2 gap-6">
-                      <div className="flex flex-col gap-2">
-                         <label className="text-xs font-mono uppercase tracking-widest text-gray-400">Full Name *</label>
-                         <input required type="text" className="bg-white/5 border border-white/10 rounded-none px-4 py-3 text-white focus:outline-none focus:border-emerald-500 transition-colors" />
+               {!isSuccess ? (
+                 <form className="glass p-10 rounded-2xl border border-white/10 bg-[#0A0A0A] flex flex-col gap-6" onSubmit={handleSubmit}>
+                    
+                    {errorMsg && (
+                      <div className="bg-red-500/10 border border-red-500/50 text-red-400 px-4 py-3 rounded text-sm font-sans">
+                        {errorMsg}
                       </div>
-                      <div className="flex flex-col gap-2">
-                         <label className="text-xs font-mono uppercase tracking-widest text-gray-400">Work Email *</label>
-                         <input required type="email" className="bg-white/5 border border-white/10 rounded-none px-4 py-3 text-white focus:outline-none focus:border-emerald-500 transition-colors" />
-                      </div>
-                  </div>
+                    )}
 
-                  <div className="grid grid-cols-2 gap-6">
-                      <div className="flex flex-col gap-2">
-                         <label className="text-xs font-mono uppercase tracking-widest text-gray-400">Company Name *</label>
-                         <input required type="text" className="bg-white/5 border border-white/10 rounded-none px-4 py-3 text-white focus:outline-none focus:border-emerald-500 transition-colors" />
-                      </div>
-                      <div className="flex flex-col gap-2">
-                         <label className="text-xs font-mono uppercase tracking-widest text-gray-400">Company Size</label>
-                         <select className="bg-white/5 border border-white/10 rounded-none px-4 py-3 text-white focus:outline-none focus:border-emerald-500 transition-colors appearance-none">
-                             <option className="bg-[#0A0A0A]">1–10</option>
-                             <option className="bg-[#0A0A0A]">11–50</option>
-                             <option className="bg-[#0A0A0A]">51–200</option>
-                             <option className="bg-[#0A0A0A]">201–1000</option>
-                             <option className="bg-[#0A0A0A]">1000+</option>
-                         </select>
-                      </div>
-                  </div>
+                    <div className="grid grid-cols-2 gap-6">
+                        <div className="flex flex-col gap-2">
+                           <label className="text-xs font-mono uppercase tracking-widest text-gray-400">Full Name *</label>
+                           <input 
+                             required 
+                             type="text" 
+                             name="fullName"
+                             value={formData.fullName}
+                             onChange={handleInputChange}
+                             className="bg-white/5 border border-white/10 rounded-none px-4 py-3 text-white focus:outline-none focus:border-emerald-500 transition-colors" 
+                           />
+                        </div>
+                        <div className="flex flex-col gap-2">
+                           <label className="text-xs font-mono uppercase tracking-widest text-gray-400">Work Email *</label>
+                           <input 
+                             required 
+                             type="email" 
+                             name="workEmail"
+                             value={formData.workEmail}
+                             onChange={handleInputChange}
+                             className="bg-white/5 border border-white/10 rounded-none px-4 py-3 text-white focus:outline-none focus:border-emerald-500 transition-colors" 
+                           />
+                        </div>
+                    </div>
 
-                  <div className="flex flex-col gap-2">
-                      <label className="text-xs font-mono uppercase tracking-widest text-gray-400">What best describes your situation?</label>
-                      <select className="bg-white/5 border border-white/10 rounded-none px-4 py-3 text-white focus:outline-none focus:border-emerald-500 transition-colors appearance-none">
-                          <option className="bg-[#0A0A0A]">I'm exploring AI for the first time</option>
-                          <option className="bg-[#0A0A0A]">I've tried AI but it didn't stick</option>
-                          <option className="bg-[#0A0A0A]">I have a specific use case in mind</option>
-                          <option className="bg-[#0A0A0A]">I need help with an existing AI system</option>
-                      </select>
-                  </div>
+                    <div className="grid grid-cols-2 gap-6">
+                        <div className="flex flex-col gap-2">
+                           <label className="text-xs font-mono uppercase tracking-widest text-gray-400">Company Name *</label>
+                           <input 
+                             required 
+                             type="text" 
+                             name="companyName"
+                             value={formData.companyName}
+                             onChange={handleInputChange}
+                             className="bg-white/5 border border-white/10 rounded-none px-4 py-3 text-white focus:outline-none focus:border-emerald-500 transition-colors" 
+                           />
+                        </div>
+                        <div className="flex flex-col gap-2">
+                           <label className="text-xs font-mono uppercase tracking-widest text-gray-400">Company Size</label>
+                           <select 
+                             name="companySize"
+                             value={formData.companySize}
+                             onChange={handleInputChange}
+                             className="bg-white/5 border border-white/10 rounded-none px-4 py-3 text-white focus:outline-none focus:border-emerald-500 transition-colors appearance-none"
+                           >
+                               <option className="bg-[#0A0A0A]" value="1–10">1–10</option>
+                               <option className="bg-[#0A0A0A]" value="11–50">11–50</option>
+                               <option className="bg-[#0A0A0A]" value="51–200">51–200</option>
+                               <option className="bg-[#0A0A0A]" value="201–1000">201–1000</option>
+                               <option className="bg-[#0A0A0A]" value="1000+">1000+</option>
+                           </select>
+                        </div>
+                    </div>
 
-                  <div className="flex flex-col gap-2 mb-2">
-                      <label className="text-xs font-mono uppercase tracking-widest text-gray-400">Tell us about your challenge</label>
-                      <textarea rows={4} className="bg-white/5 border border-white/10 rounded-none px-4 py-3 text-white focus:outline-none focus:border-emerald-500 transition-colors resize-none"></textarea>
-                  </div>
+                    <div className="flex flex-col gap-2">
+                        <label className="text-xs font-mono uppercase tracking-widest text-gray-400">What best describes your situation?</label>
+                        <select 
+                          name="situation"
+                          value={formData.situation}
+                          onChange={handleInputChange}
+                          className="bg-white/5 border border-white/10 rounded-none px-4 py-3 text-white focus:outline-none focus:border-emerald-500 transition-colors appearance-none"
+                        >
+                            <option className="bg-[#0A0A0A]" value="I'm exploring AI for the first time">I'm exploring AI for the first time</option>
+                            <option className="bg-[#0A0A0A]" value="I've tried AI but it didn't stick">I've tried AI but it didn't stick</option>
+                            <option className="bg-[#0A0A0A]" value="I have a specific use case in mind">I have a specific use case in mind</option>
+                            <option className="bg-[#0A0A0A]" value="I need help with an existing AI system">I need help with an existing AI system</option>
+                        </select>
+                    </div>
 
-                  <button type="submit" className="w-full bg-[#10B981] hover:brightness-110 text-black px-12 py-5 rounded-none font-syne font-bold emerald-glow transition-all uppercase text-sm tracking-widest">
-                     Book My Strategy Call
-                  </button>
-               </form>
+                    <div className="flex flex-col gap-2 mb-2">
+                        <label className="text-xs font-mono uppercase tracking-widest text-gray-400">Tell us about your challenge</label>
+                        <textarea 
+                          rows={4} 
+                          name="challenge"
+                          value={formData.challenge}
+                          onChange={handleInputChange}
+                          className="bg-white/5 border border-white/10 rounded-none px-4 py-3 text-white focus:outline-none focus:border-emerald-500 transition-colors resize-none"
+                        ></textarea>
+                    </div>
+
+                    <button 
+                      type="submit" 
+                      disabled={isSubmitting}
+                      className="w-full flex justify-center items-center gap-3 bg-[#10B981] hover:brightness-110 disabled:opacity-70 disabled:hover:brightness-100 text-black px-12 py-5 rounded-none font-syne font-bold emerald-glow transition-all uppercase text-sm tracking-widest"
+                    >
+                       {isSubmitting ? (
+                         <>
+                           <Loader2 className="w-5 h-5 animate-spin" />
+                           Submitting...
+                         </>
+                       ) : (
+                         "Book My Strategy Call"
+                       )}
+                    </button>
+                 </form>
+               ) : (
+                 <div className="glass p-12 rounded-2xl border border-emerald-500/30 bg-[#0A0A0A] flex flex-col items-center text-center">
+                    <div className="w-20 h-20 bg-emerald-500/10 rounded-full flex items-center justify-center mb-6">
+                      <CheckCircle2 className="w-10 h-10 text-emerald-400" />
+                    </div>
+                    <h2 className="font-syne text-3xl font-bold text-white mb-4">Thanks for reaching out.</h2>
+                    <p className="text-gray-300 text-lg mb-2">Your strategy call request has been received successfully.</p>
+                    <p className="text-gray-400 mb-8">We'll review your challenge and get back to you shortly.</p>
+                    <div className="bg-white/5 px-6 py-3 rounded border border-white/10 mb-8 font-mono">
+                      <span className="text-gray-500 uppercase text-xs mr-3 tracking-wider">Lead ID:</span>
+                      <span className="text-emerald-400 font-bold">{leadId}</span>
+                    </div>
+                    <a 
+                      href={import.meta.env.VITE_CALENDLY_URL || "#"} 
+                      target={import.meta.env.VITE_CALENDLY_URL ? "_blank" : "_self"}
+                      rel="noopener noreferrer"
+                      className="w-full bg-white hover:bg-gray-100 text-black px-8 py-4 rounded-none font-syne font-bold transition-all uppercase text-sm tracking-widest"
+                    >
+                      Schedule My Call
+                    </a>
+                 </div>
+               )}
 
                <div className="mt-10 pt-10 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-6">
                    <div className="text-gray-400">

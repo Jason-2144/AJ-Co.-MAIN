@@ -20,7 +20,6 @@ export default function Contact() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
-  const [leadId, setLeadId] = useState('');
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -46,27 +45,30 @@ export default function Contact() {
 
     try {
       // The Webhook URL (User will replace this in .env)
-      const WEBHOOK_URL = import.meta.env.VITE_GOOGLE_WEBHOOK_URL || "YOUR_GOOGLE_APPS_SCRIPT_WEBHOOK_URL";
+      const providedUrl = "https://script.google.com/macros/s/AKfycbyk3VT_AqU0ZL0YZGDBEnamiZtndlUlmalVpav5UV8o4pjHSic8VjhvrC_D14sHpQ/exec";
+      const WEBHOOK_URL = (import.meta as any).env.VITE_GOOGLE_WEBHOOK_URL || providedUrl;
       
+      if (!WEBHOOK_URL || WEBHOOK_URL === "YOUR_GOOGLE_APPS_SCRIPT_WEBHOOK_URL") {
+        setErrorMsg("Please set up your Google Apps Script Webhook URL in the Environment Variables (VITE_GOOGLE_WEBHOOK_URL) first.");
+        setIsSubmitting(false);
+        return;
+      }
+
       const response = await fetch(WEBHOOK_URL, {
         method: "POST",
+        mode: "no-cors",
         headers: {
             "Content-Type": "text/plain;charset=utf-8",
         },
         body: JSON.stringify(formData),
       });
 
-      const result = await response.json();
-      
-      if (result.status === 'success') {
-          setLeadId(result.leadId);
-          setIsSuccess(true);
-      } else {
-          setErrorMsg("Something went wrong while submitting your request. Please try again.");
-      }
+      // With no-cors, the response is opaque and we cannot read JSON.
+      // If the fetch didn't throw a network error, we assume it was sent successfully.
+      setIsSuccess(true);
     } catch (error) {
       console.error(error);
-      setErrorMsg("Something went wrong while submitting your request. Please try again.");
+      setErrorMsg(error instanceof Error ? error.message : "Something went wrong while submitting your request. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
@@ -232,19 +234,7 @@ export default function Contact() {
                     </div>
                     <h2 className="font-syne text-3xl font-bold text-white mb-4">Thanks for reaching out.</h2>
                     <p className="text-gray-300 text-lg mb-2">Your strategy call request has been received successfully.</p>
-                    <p className="text-gray-400 mb-8">We'll review your challenge and get back to you shortly.</p>
-                    <div className="bg-white/5 px-6 py-3 rounded border border-white/10 mb-8 font-mono">
-                      <span className="text-gray-500 uppercase text-xs mr-3 tracking-wider">Lead ID:</span>
-                      <span className="text-emerald-400 font-bold">{leadId}</span>
-                    </div>
-                    <a 
-                      href={import.meta.env.VITE_CALENDLY_URL || "#"} 
-                      target={import.meta.env.VITE_CALENDLY_URL ? "_blank" : "_self"}
-                      rel="noopener noreferrer"
-                      className="w-full bg-white hover:bg-gray-100 text-black px-8 py-4 rounded-none font-syne font-bold transition-all uppercase text-sm tracking-widest"
-                    >
-                      Schedule My Call
-                    </a>
+                    <p className="text-gray-400 mb-8">We'll review your request and get back to you shortly.</p>
                  </div>
                )}
 

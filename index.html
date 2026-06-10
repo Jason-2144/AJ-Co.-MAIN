@@ -4,8 +4,27 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>My Google AI Studio App</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
     <script> window.chtlConfig = { chatbotId: "2389658299" } </script>
     <script async data-id="2389658299" id="chtl-script" type="text/javascript" src="https://chatling.ai/js/embed.js"></script>
+    <style>
+      /* Chatbot Widget Mobile Fix */
+      @media (max-width: 639px) {
+        #chtl-wrapper {
+          width: calc(100vw - 32px) !important;
+          right: 16px !important;
+          bottom: 16px !important;
+        }
+        #chtl-trigger {
+          width: 52px !important;
+          height: 52px !important;
+        }
+      }
+    </style>
   </head>
   <body>
     <div id="root"></div>

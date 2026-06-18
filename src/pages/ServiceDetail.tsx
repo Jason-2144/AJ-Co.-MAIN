@@ -1,13 +1,14 @@
 import { useParams, Link } from 'react-router-dom';
+import SEO from '../components/SEO';
 import { motion } from 'motion/react';
 import { CheckCircle2 } from 'lucide-react';
 
-const fadeUp = {
+const fadeUp: any = {
  hidden: { opacity: 0, y: 20 },
  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } }
 };
 
-const staggerContainer = {
+const staggerContainer: any = {
  hidden: { opacity: 0 },
  visible: {
  opacity: 1,
@@ -153,8 +154,13 @@ export default function ServiceDetail() {
 
  if (!data) return <div className="py-16 sm:py-20 lg:py-28 text-center text-white">Service not found.</div>;
 
- return (
+	return (
  <>
+	<SEO
+		title={data ? `${data.headline} | AJ & Co.` : 'Service | AJ & Co.'}
+		description={data?.sub}
+		keywords={data ? `AJ & Co, ${id}, AI services` : 'AJ & Co, services'}
+	/>
  <section className="relative pt-32 pb-24 overflow-hidden bg-[#0A0A0A]">
  <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center max-w-4xl">
  <motion.h1 

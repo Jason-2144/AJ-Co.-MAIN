@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
+import SEO from '../components/SEO';
 import { motion } from 'motion/react';
 import { Linkedin, Twitter, CheckCircle2, Loader2 } from 'lucide-react';
 
-const fadeUp = {
+const fadeUp: any = {
  hidden: { opacity: 0, y: 20 },
  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } }
 };
@@ -76,6 +77,11 @@ export default function Contact() {
 
  return (
  <section className="relative pt-32 pb-32 overflow-hidden bg-[#0A0A0A] flex-grow flex flex-col justify-center">
+	<SEO
+		title="Contact AJ & Co."
+		description="Book a free strategy call with AJ & Co. — start exploring high-impact AI opportunities for your business."
+		keywords="contact, strategy call, AI consulting"
+	/>
  <div className="absolute inset-0 hero-gradient opacity-20 pointer-events-none"></div>
  
  <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 max-w-6xl mt-10">

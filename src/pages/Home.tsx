@@ -1,15 +1,16 @@
 import React, { useState, useEffect, useRef } from 'react';
+import SEO from '../components/SEO';
 import { motion, useScroll, useTransform } from 'motion/react';
 import { Link } from 'react-router-dom';
 import Hls from 'hls.js';
 import { Bot, Cpu, Plug, MessageSquare, Globe, Layers, Shield } from 'lucide-react';
 
-const fadeUp = {
+const fadeUp: any = {
   hidden: { opacity: 0, y: 24 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.65, ease: "easeOut" } }
 };
 
-const stagger = {
+const stagger: any = {
   hidden: { opacity: 0 },
   visible: { opacity: 1, transition: { staggerChildren: 0.1 } }
 };
@@ -376,6 +377,11 @@ export default function Home() {
 
   return (
     <>
+      <SEO
+        title="AJ & Co. | AI Automation Agency"
+        description="AJ & Co. helps businesses automate workflows, build AI agents, and implement AI systems that generate measurable business results."
+        keywords="AI automation, AI development, AI agents, workflow automation"
+      />
       <style dangerouslySetInnerHTML={{__html:`
         .liquid-glass-strong {
           background: rgba(255,255,255,0.01);

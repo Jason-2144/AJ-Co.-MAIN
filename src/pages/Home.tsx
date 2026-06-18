@@ -248,12 +248,18 @@ const CtaFooter = () => {
       </div>
       
       <div className="border-t border-white/10 relative z-10 py-8 bg-[#0A0A0A]">
-        <div className="container mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="font-mono text-xs text-gray-500 text-center md:text-left">© 2026 AJ and Co. All rights reserved.</p>
-          <div className="flex flex-wrap justify-center gap-6 font-mono text-xs text-gray-500">
-            <Link to="/privacy-policy" className="hover:text-white transition-colors">Privacy</Link>
-            <Link to="/terms-of-service" className="hover:text-white transition-colors">Terms</Link>
-            <Link to="/contact" className="hover:text-white transition-colors">Contact</Link>
+        <div className="container mx-auto px-4 flex flex-col gap-6">
+          <div className="flex flex-wrap items-center justify-center gap-6 font-mono text-xs text-gray-400">
+            <a href="tel:+918500071123" className="hover:text-emerald-400 transition-colors">+91 85000 71123</a>
+            <a href="mailto:team.ajandco@gmail.com" className="hover:text-emerald-400 transition-colors">team.ajandco@gmail.com</a>
+          </div>
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4 pt-6 border-t border-white/5">
+            <p className="font-mono text-xs text-gray-500 text-center md:text-left">© 2026 AJ and Co. All rights reserved.</p>
+            <div className="flex flex-wrap justify-center gap-6 font-mono text-xs text-gray-500">
+              <Link to="/privacy-policy" className="hover:text-white transition-colors">Privacy</Link>
+              <Link to="/terms-of-service" className="hover:text-white transition-colors">Terms</Link>
+              <Link to="/contact" className="hover:text-white transition-colors">Contact</Link>
+            </div>
           </div>
         </div>
       </div>

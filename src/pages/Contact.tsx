@@ -246,7 +246,7 @@ export default function Contact() {
 
  <div className="mt-10 pt-10 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-6">
  <div className="text-gray-400">
- Prefer email? <span className="text-emerald-400 font-bold mx-2">→</span> <a href="mailto:hello@ajandco.ai" className="text-white hover:text-emerald-400 transition-colors">hello@ajandco.ai</a>
+ Prefer email? <span className="text-emerald-400 font-bold mx-2">→</span> <a href="mailto:team.ajandco@gmail.com" className="text-white hover:text-emerald-400 transition-colors">team.ajandco@gmail.com</a>
  <div className="text-sm mt-1">Response within 24 hours.</div>
  </div>
  <div className="flex gap-4">

@@ -1,7 +1,15 @@
 import React from 'react';
+import { Helmet } from 'react-helmet-async';
 import { useLocation } from 'react-router-dom';
 
 const BASE_URL = 'https://ajandco.vercel.app';
+
+type ServiceSchema = {
+  name: string;
+  description?: string;
+  serviceType?: string;
+  url?: string;
+};
 
 type Props = {
   title?: string;
@@ -9,86 +17,75 @@ type Props = {
   keywords?: string;
   url?: string;
   image?: string;
+  service?: ServiceSchema | null;
 };
 
-function setMetaTag({ attr, key, value }: { attr: 'name' | 'property' | 'itemprop'; key: string; value: string }) {
-  if (!value) return;
-  const selector = `${attr}="${key}"`;
-  let el = document.head.querySelector(`meta[${selector}]`) as HTMLMetaElement | null;
-  if (!el) {
-    el = document.createElement('meta');
-    el.setAttribute(attr, key);
-    document.head.appendChild(el);
-  }
-  el.setAttribute('content', value);
-}
-
-function setLinkRel(rel: string, href: string) {
-  if (!href) return;
-  let el = document.head.querySelector(`link[rel="${rel}"]`) as HTMLLinkElement | null;
-  if (!el) {
-    el = document.createElement('link');
-    el.setAttribute('rel', rel);
-    document.head.appendChild(el);
-  }
-  el.setAttribute('href', href);
-}
-
-function setJsonLd(id: string, obj: object) {
-  if (!obj) return;
-  let el = document.getElementById(id) as HTMLScriptElement | null;
-  if (!el) {
-    el = document.createElement('script');
-    el.id = id;
-    el.type = 'application/ld+json';
-    document.head.appendChild(el);
-  }
-  el.textContent = JSON.stringify(obj);
-}
-
-export default function SEO({ title, description, keywords, url, image }: Props) {
+export default function SEO({ title, description, keywords, url, image, service }: Props) {
   const location = useLocation();
   const canonical = url || `${BASE_URL}${location.pathname}`;
   const metaTitle = title || 'AJ & Co.';
   const metaDesc = description || 'AJ & Co. helps businesses automate workflows and build AI systems that generate measurable business results.';
   const metaImage = image || `${BASE_URL}/og-image.png`;
 
-  React.useEffect(() => {
-    const previousTitle = document.title;
-    document.title = metaTitle;
+  const organizationSchema = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: 'AJ & Co.',
+    url: BASE_URL,
+    logo: `${BASE_URL}/logo.png`,
+    email: 'team.ajandco@gmail.com',
+    telephone: '+918500071123',
+    sameAs: []
+  };
 
-    setMetaTag({ attr: 'name', key: 'description', value: metaDesc });
-    if (keywords) setMetaTag({ attr: 'name', key: 'keywords', value: keywords });
+  const websiteSchema = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: 'AJ & Co.',
+    url: BASE_URL,
+    potentialAction: {
+      "@type": "SearchAction",
+      target: `${BASE_URL}/?s={search_term_string}`,
+      "query-input": "required name=search_term_string"
+    }
+  };
 
-    setMetaTag({ attr: 'property', key: 'og:title', value: metaTitle });
-    setMetaTag({ attr: 'property', key: 'og:description', value: metaDesc });
-    setMetaTag({ attr: 'property', key: 'og:image', value: metaImage });
-    setMetaTag({ attr: 'property', key: 'og:url', value: canonical });
-    setMetaTag({ attr: 'property', key: 'og:type', value: 'website' });
+  const serviceSchema = service ? {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: service.name,
+    description: service.description || metaDesc,
+    serviceType: service.serviceType || undefined,
+    provider: { "@type": "Organization", name: 'AJ & Co.', url: BASE_URL },
+    url: service.url || canonical
+  } : null;
 
-    setMetaTag({ attr: 'name', key: 'twitter:card', value: 'summary_large_image' });
-    setMetaTag({ attr: 'name', key: 'twitter:title', value: metaTitle });
-    setMetaTag({ attr: 'name', key: 'twitter:description', value: metaDesc });
-    setMetaTag({ attr: 'name', key: 'twitter:image', value: metaImage });
+  return (
+    <Helmet>
+      <title>{metaTitle}</title>
+      <meta name="description" content={metaDesc} />
+      {keywords && <meta name="keywords" content={keywords} />}
+      <meta name="robots" content="index, follow" />
+      <link rel="canonical" href={canonical} />
 
-    setLinkRel('canonical', canonical);
+      {/* Open Graph */}
+      <meta property="og:locale" content="en_US" />
+      <meta property="og:type" content="website" />
+      <meta property="og:title" content={metaTitle} />
+      <meta property="og:description" content={metaDesc} />
+      <meta property="og:image" content={metaImage} />
+      <meta property="og:url" content={canonical} />
 
-    const orgSchema = {
-      "@context": "https://schema.org",
-      "@type": "Organization",
-      name: 'AJ & Co.',
-      url: BASE_URL,
-      logo: `${BASE_URL}/logo.png`,
-      email: 'team.ajandco@gmail.com',
-      telephone: '+918500071123',
-      sameAs: []
-    };
-    setJsonLd('ajandco-org-schema', orgSchema);
+      {/* Twitter */}
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content={metaTitle} />
+      <meta name="twitter:description" content={metaDesc} />
+      <meta name="twitter:image" content={metaImage} />
 
-    return () => {
-      document.title = previousTitle;
-    };
-  }, [metaTitle, metaDesc, keywords, metaImage, canonical]);
-
-  return null;
+      {/* JSON-LD structured data */}
+      <script type="application/ld+json">{JSON.stringify(organizationSchema)}</script>
+      <script type="application/ld+json">{JSON.stringify(websiteSchema)}</script>
+      {serviceSchema && <script type="application/ld+json">{JSON.stringify(serviceSchema)}</script>}
+    </Helmet>
+  );
 }

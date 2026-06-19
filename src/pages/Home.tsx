@@ -382,6 +382,12 @@ export default function Home() {
         description="AJ & Co. helps businesses automate workflows, build AI agents, and implement AI systems that generate measurable business results."
         keywords="AI automation, AI development, AI agents, workflow automation"
       />
+      <main className="relative bg-[#0A0A0A]">
+        <section className="container mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-8 max-w-4xl">
+          <h1 className="font-syne text-4xl sm:text-5xl md:text-6xl font-extrabold text-white mb-6">AJ & Co. — AI Automation Agency</h1>
+          <p className="text-lg text-gray-400 mb-6">We help businesses identify high-impact AI opportunities, build production-ready agents, and embed automation into operations to deliver measurable results.</p>
+        </section>
+      </main>
       <style dangerouslySetInnerHTML={{__html:`
         .liquid-glass-strong {
           background: rgba(255,255,255,0.01);

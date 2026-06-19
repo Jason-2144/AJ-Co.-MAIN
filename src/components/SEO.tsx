@@ -1,7 +1,7 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
 
-const BASE_URL = 'https://ajandco.ai';
+const BASE_URL = 'https://ajandco.vercel.app';
 
 type Props = {
   title?: string;

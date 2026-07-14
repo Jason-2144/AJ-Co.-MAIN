@@ -1,3 +1,4 @@
+import SEO from '../components/SEO';
 import React, { useState } from 'react';
 import { motion } from 'motion/react';
 import { Linkedin, Twitter, CheckCircle2, Loader2 } from 'lucide-react';
@@ -75,7 +76,9 @@ export default function Contact() {
  };
 
  return (
- <section className="relative pt-32 pb-32 overflow-hidden bg-[#0A0A0A] flex-grow flex flex-col justify-center">
+    <>
+      <SEO title="Contact | AJ & Co." description="Get in touch to discuss your AI or web project." canonicalUrl="/contact" />
+    <section className="relative pt-32 pb-32 overflow-hidden bg-[#0A0A0A] flex-grow flex flex-col justify-center">
  <div className="absolute inset-0 hero-gradient opacity-20 pointer-events-none"></div>
  
  <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 max-w-6xl mt-10">
@@ -240,7 +243,7 @@ export default function Contact() {
 
  <div className="mt-10 pt-10 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-6">
  <div className="text-gray-400">
- Prefer email? <span className="text-emerald-400 font-bold mx-2">→</span> <a href="mailto:hello@ajandco.ai" className="text-white hover:text-emerald-400 transition-colors">hello@ajandco.ai</a>
+ Prefer email? <span className="text-emerald-400 font-bold mx-2">→</span> <a href="mailto:team.ajandco@gmail.com" className="text-white hover:text-emerald-400 transition-colors">team.ajandco@gmail.com</a>
  <div className="text-sm mt-1">Response within 24 hours.</div>
  </div>
  <div className="flex gap-4">
@@ -252,5 +255,6 @@ export default function Contact() {
  </div>
  </div>
  </section>
- );
+ </>
+);
 }

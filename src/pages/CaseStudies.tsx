@@ -1,3 +1,4 @@
+import SEO from '../components/SEO';
 import { motion } from 'motion/react';
 import { ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
@@ -41,7 +42,8 @@ const caseStudiesList = [
 
 export default function CaseStudies() {
  return (
- <>
+    <>
+      <SEO title="Case Studies | AJ & Co." description="See how we have transformed businesses with AI and web development." canonicalUrl="/case-studies" />
  <section className="relative pt-32 pb-24 overflow-hidden bg-[#0A0A0A]">
  <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center max-w-4xl">
  <motion.h1 

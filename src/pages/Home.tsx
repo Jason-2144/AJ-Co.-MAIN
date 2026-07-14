@@ -1,3 +1,4 @@
+import SEO from '../components/SEO';
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, useScroll, useTransform } from 'motion/react';
 import { Link } from 'react-router-dom';
@@ -376,6 +377,7 @@ export default function Home() {
 
   return (
     <>
+      <SEO title="AJ & Co. | Enterprise AI & Full-Stack Web Development" description="We build production-ready AI agents, workflow automations, and web systems for growing businesses." canonicalUrl="/" />
       <style dangerouslySetInnerHTML={{__html:`
         .liquid-glass-strong {
           background: rgba(255,255,255,0.01);

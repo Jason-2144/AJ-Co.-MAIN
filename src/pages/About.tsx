@@ -1,3 +1,4 @@
+import SEO from '../components/SEO';
 import { motion } from 'motion/react';
 import { Link } from 'react-router-dom';
 
@@ -16,7 +17,8 @@ const staggerContainer = {
 
 export default function About() {
  return (
- <>
+    <>
+      <SEO title="About Us | AJ & Co." description="AJ & Co. is a team of AI engineers and full-stack developers building real solutions for businesses." canonicalUrl="/about" />
  <section className="relative pt-32 pb-24 overflow-hidden bg-[#0A0A0A]">
  <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center max-w-4xl">
  <motion.h1 

@@ -1,3 +1,4 @@
+import SEO from '../components/SEO';
 import { useParams, Link } from 'react-router-dom';
 import { motion } from 'motion/react';
 
@@ -112,7 +113,8 @@ export default function CaseStudyDetail() {
  if (!data) return <div className="py-16 sm:py-20 lg:py-28 text-center text-white">Case study not found.</div>;
 
  return (
- <>
+    <>
+      <SEO title={`${data.title} | AJ & Co.`} description={data.challenge[0]} canonicalUrl={`/case-studies/${id}`} />
  <section className="relative pt-32 pb-24 border-b border-white/5 bg-[#0A0A0A]">
  <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl">
  <div className="mb-6 flex gap-4 flex-wrap">

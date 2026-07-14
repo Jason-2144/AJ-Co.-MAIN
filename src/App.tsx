@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { HelmetProvider } from 'react-helmet-async';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import ScrollToTop from './components/ScrollToTop';
@@ -18,7 +19,8 @@ import TermsOfService from './pages/TermsOfService';
 
 export default function App() {
  return (
- <BrowserRouter>
+ <HelmetProvider>
+      <BrowserRouter>
  <ScrollToTop />
  <div className="font-sans min-h-screen bg-[#0A0A0A] text-white flex flex-col">
  <Navbar />
@@ -39,5 +41,6 @@ export default function App() {
  <Footer />
  </div>
  </BrowserRouter>
+    </HelmetProvider>
  );
 }

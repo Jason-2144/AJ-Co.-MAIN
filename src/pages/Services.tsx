@@ -1,3 +1,4 @@
+import SEO from '../components/SEO';
 import { motion } from 'motion/react';
 import { Scan, Bot, GitBranch, GraduationCap } from 'lucide-react';
 import { Link } from 'react-router-dom';
@@ -44,7 +45,8 @@ const services = [
 
 export default function Services() {
  return (
- <>
+    <>
+      <SEO title="Services | AJ & Co." description="From AI opportunity assessments to custom agents and full web systems." canonicalUrl="/services" />
  <section className="relative py-16 sm:py-20 lg:py-28 overflow-hidden bg-[#0A0A0A]">
  <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
  <motion.div 

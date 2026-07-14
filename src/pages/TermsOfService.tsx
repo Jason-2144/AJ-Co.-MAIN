@@ -1,3 +1,4 @@
+import SEO from '../components/SEO';
 import { motion } from 'motion/react';
 
 const fadeUp = {
@@ -7,7 +8,9 @@ const fadeUp = {
 
 export default function TermsOfService() {
  return (
- <section className="pt-40 pb-32 bg-[#0A0A0A] min-h-screen">
+    <>
+      <SEO title="Terms of Service | AJ & Co." description="Terms and conditions for using our website and services." canonicalUrl="/terms-of-service" />
+    <section className="pt-40 pb-32 bg-[#0A0A0A] min-h-screen">
  <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-3xl">
  <motion.div initial="hidden" animate="visible" variants={fadeUp} className="mb-16">
  <h1 className="font-syne text-4xl md:text-5xl font-extrabold text-white mb-4">Terms of Service</h1>
@@ -18,7 +21,7 @@ export default function TermsOfService() {
  
  <div>
  <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-white mb-4">1. Agreement to Terms</h2>
- <p>By accessing or using our Website (ajandco.ai) or services, you agree to be bound by these Terms. If you disagree, you must not use our website.</p>
+ <p>By accessing or using our Website (ajandco.site) or services, you agree to be bound by these Terms. If you disagree, you must not use our website.</p>
  </div>
 
  <div>
@@ -66,11 +69,12 @@ export default function TermsOfService() {
 
  <div>
  <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-white mb-4">10. Contact Us</h2>
- <p>For questions about these terms: <a href="mailto:legal@ajandco.ai" className="text-emerald-400 hover:text-emerald-300">legal@ajandco.ai</a></p>
+ <p>For questions about these terms: <a href="mailto:team.ajandco@gmail.com" className="text-emerald-400 hover:text-emerald-300">team.ajandco@gmail.com</a></p>
  </div>
 
  </motion.div>
  </div>
  </section>
- );
+ </>
+);
 }

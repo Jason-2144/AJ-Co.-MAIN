@@ -1,6 +1,7 @@
 import { useParams, Link } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { CheckCircle2 } from 'lucide-react';
+import SEO from '../components/SEO';
 
 const fadeUp = {
  hidden: { opacity: 0, y: 20 },
@@ -154,7 +155,8 @@ export default function ServiceDetail() {
  if (!data) return <div className="py-16 sm:py-20 lg:py-28 text-center text-white">Service not found.</div>;
 
  return (
- <>
+    <>
+      <SEO title={`${data.headline} | AJ & Co.`} description={data.sub} canonicalUrl={`/services/${id}`} />
  <section className="relative pt-32 pb-24 overflow-hidden bg-[#0A0A0A]">
  <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center max-w-4xl">
  <motion.h1 

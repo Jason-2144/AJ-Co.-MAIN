@@ -1,14 +1,13 @@
 import { motion } from 'motion/react';
-import SEO from '../components/SEO';
 import { Scan, Bot, GitBranch, GraduationCap } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
-const fadeUp: any = {
+const fadeUp = {
  hidden: { opacity: 0, y: 20 },
  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } }
 };
 
-const staggerContainer: any = {
+const staggerContainer = {
  hidden: { opacity: 0 },
  visible: {
  opacity: 1,
@@ -44,13 +43,8 @@ const services = [
 ];
 
 export default function Services() {
-	return (
-	<>
-	 <SEO
-		 title="AI Services | AJ & Co."
-		 description="Production-grade AI services: custom agents, workflow automation, and enterprise AI training to deliver measurable business outcomes."
-		 keywords="AI services, workflow automation, AI agents, enterprise AI training"
-	 />
+ return (
+ <>
  <section className="relative py-16 sm:py-20 lg:py-28 overflow-hidden bg-[#0A0A0A]">
  <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
  <motion.div 

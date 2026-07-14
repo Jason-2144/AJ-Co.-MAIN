@@ -1,13 +1,12 @@
 import { useParams, Link } from 'react-router-dom';
 import { motion } from 'motion/react';
-import SEO from '../components/SEO';
 
-const fadeUp: any = {
+const fadeUp = {
  hidden: { opacity: 0, y: 20 },
  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } }
 };
 
-const staggerContainer: any = {
+const staggerContainer = {
  hidden: { opacity: 0 },
  visible: {
  opacity: 1,
@@ -114,12 +113,6 @@ export default function CaseStudyDetail() {
 
  return (
  <>
-	<SEO
-		title={data ? `${data.title} | AJ & Co.` : 'Case Study | AJ & Co.'}
-		description={data ? data.client?.slice(0, 140) : 'AJ & Co. case study.'}
-		keywords={data ? `case study, ${data.industry}` : 'case study'}
-	/>
- 
  <section className="relative pt-32 pb-24 border-b border-white/5 bg-[#0A0A0A]">
  <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl">
  <div className="mb-6 flex gap-4 flex-wrap">

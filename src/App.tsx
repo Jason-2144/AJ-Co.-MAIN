@@ -1,20 +1,20 @@
-import React, { Suspense } from 'react';
+import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import ScrollToTop from './components/ScrollToTop';
 
-// Lazy-loaded pages for route-based code splitting
-const Home = React.lazy(() => import('./pages/Home'));
-const Services = React.lazy(() => import('./pages/Services'));
-const ServiceDetail = React.lazy(() => import('./pages/ServiceDetail'));
-const Process = React.lazy(() => import('./pages/Process'));
-const CaseStudies = React.lazy(() => import('./pages/CaseStudies'));
-const CaseStudyDetail = React.lazy(() => import('./pages/CaseStudyDetail'));
-const About = React.lazy(() => import('./pages/About'));
-const Contact = React.lazy(() => import('./pages/Contact'));
-const PrivacyPolicy = React.lazy(() => import('./pages/PrivacyPolicy'));
-const TermsOfService = React.lazy(() => import('./pages/TermsOfService'));
+// Pages
+import Home from './pages/Home';
+import Services from './pages/Services';
+import ServiceDetail from './pages/ServiceDetail';
+import Process from './pages/Process';
+import CaseStudies from './pages/CaseStudies';
+import CaseStudyDetail from './pages/CaseStudyDetail';
+import About from './pages/About';
+import Contact from './pages/Contact';
+import PrivacyPolicy from './pages/PrivacyPolicy';
+import TermsOfService from './pages/TermsOfService';
 
 export default function App() {
  return (
@@ -23,7 +23,6 @@ export default function App() {
  <div className="font-sans min-h-screen bg-[#0A0A0A] text-white flex flex-col">
  <Navbar />
  <main className="flex-grow pt-24">
- <Suspense fallback={<div aria-hidden /> }>
  <Routes>
  <Route path="/" element={<Home />} />
  <Route path="/services" element={<Services />} />
@@ -36,7 +35,6 @@ export default function App() {
  <Route path="/privacy-policy" element={<PrivacyPolicy />} />
  <Route path="/terms-of-service" element={<TermsOfService />} />
  </Routes>
- </Suspense>
  </main>
  <Footer />
  </div>

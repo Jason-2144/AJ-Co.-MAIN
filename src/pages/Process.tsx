@@ -1,13 +1,12 @@
 import { motion } from 'motion/react';
 import { Link } from 'react-router-dom';
-import SEO from '../components/SEO';
 
-const fadeUp: any = {
+const fadeUp = {
  hidden: { opacity: 0, y: 20 },
  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } }
 };
 
-const staggerContainer: any = {
+const staggerContainer = {
  hidden: { opacity: 0 },
  visible: {
  opacity: 1,
@@ -92,13 +91,8 @@ const faqs = [
 ];
 
 export default function Process() {
-	return (
-	<>
-		 <SEO
-			 title="AI Implementation Process | AJ & Co."
-			 description="AJ & Co.'s three-step process: Identify, Develop, Adopt — designed to deliver AI systems that stick and generate measurable ROI."
-			 keywords="AI process, AI adoption, workflow automation"
-		 />
+ return (
+ <>
  <section className="relative pt-32 pb-24 overflow-hidden bg-[#0A0A0A]">
  <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center max-w-4xl">
  <motion.h1 

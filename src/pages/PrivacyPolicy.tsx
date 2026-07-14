@@ -1,20 +1,13 @@
 import { motion } from 'motion/react';
-import SEO from '../components/SEO';
 
-const fadeUp: any = {
+const fadeUp = {
  hidden: { opacity: 0, y: 20 },
  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } }
 };
 
 export default function PrivacyPolicy() {
  return (
- <>
-	<SEO
-		title="Privacy Policy | AJ & Co."
-		description="AJ & Co. Privacy Policy describing how we collect, use, and protect personal data."
-		keywords="privacy policy, data protection"
-	/>
-	<section className="pt-40 pb-32 bg-[#0A0A0A] min-h-screen">
+ <section className="pt-40 pb-32 bg-[#0A0A0A] min-h-screen">
  <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-3xl">
  <motion.div initial="hidden" animate="visible" variants={fadeUp} className="mb-16">
  <h1 className="font-syne text-4xl md:text-5xl font-extrabold text-white mb-4">Privacy Policy</h1>
@@ -88,6 +81,5 @@ export default function PrivacyPolicy() {
  </motion.div>
  </div>
  </section>
- </>
  );
 }

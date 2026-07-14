@@ -1,14 +1,13 @@
 import { motion } from 'motion/react';
 import { ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import SEO from '../components/SEO';
 
-const fadeUp: any = {
+const fadeUp = {
  hidden: { opacity: 0, y: 20 },
  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } }
 };
 
-const staggerContainer: any = {
+const staggerContainer = {
  hidden: { opacity: 0 },
  visible: {
  opacity: 1,
@@ -41,13 +40,8 @@ const caseStudiesList = [
 ];
 
 export default function CaseStudies() {
-	return (
-	<>
-	 <SEO
-		 title="AI Case Studies | AJ & Co."
-		 description="Case studies showcasing AJ & Co.'s AI automation projects and measurable results across industries."
-		 keywords="AI case studies, AI automation results"
-	 />
+ return (
+ <>
  <section className="relative pt-32 pb-24 overflow-hidden bg-[#0A0A0A]">
  <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center max-w-4xl">
  <motion.h1 

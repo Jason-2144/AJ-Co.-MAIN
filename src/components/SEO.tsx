@@ -26,15 +26,15 @@ export default function SEO({ title, description, canonicalUrl, type = 'website'
       <meta property="og:type" content={type} />
       <meta property="og:url" content={fullCanonicalUrl} />
       <meta property="og:title" content={fullTitle} />
-      <meta property="og:description" content={description} />
-      <meta property="og:image" content={`${siteUrl}/og-image.jpg`} />
+      <meta property="og:description" content="AJ & Co. builds high-converting websites and AI automation systems that help businesses attract more customers, streamline operations, and scale faster." />
+      <meta property="og:image" content={`${siteUrl}/ajcoweb_logo.jpg`} />
 
       {/* Twitter */}
       <meta property="twitter:card" content="summary_large_image" />
       <meta property="twitter:url" content={fullCanonicalUrl} />
       <meta property="twitter:title" content={fullTitle} />
-      <meta property="twitter:description" content={description} />
-      <meta property="twitter:image" content={`${siteUrl}/og-image.jpg`} />
+      <meta property="twitter:description" content="AJ & Co. builds high-converting websites and AI automation systems that help businesses attract more customers, streamline operations, and scale faster." />
+      <meta property="twitter:image" content={`${siteUrl}/ajcoweb_logo.jpg`} />
 
       {/* JSON-LD Structured Data */}
       <script type="application/ld+json">

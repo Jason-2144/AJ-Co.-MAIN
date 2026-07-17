@@ -8,6 +8,17 @@ async function startServer() {
 
   app.use(express.json());
 
+  // Enforce canonical domain redirects in production
+  if (process.env.NODE_ENV === "production") {
+    app.use((req, res, next) => {
+      const host = req.headers.host || "";
+      if (host.includes("www.ajandco.site") || host.includes("vercel.app")) {
+        return res.redirect(301, `https://ajandco.site${req.originalUrl}`);
+      }
+      next();
+    });
+  }
+
   // Vite middleware for development
   if (process.env.NODE_ENV !== "production") {
     const vite = await createViteServer({

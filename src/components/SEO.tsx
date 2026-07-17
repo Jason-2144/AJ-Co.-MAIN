@@ -16,6 +16,7 @@ export default function SEO({ title, description, canonicalUrl, type = 'website'
 
   return (
     <Helmet>
+      <html lang="en" />
       {/* Standard Metadata */}
       <title>{fullTitle}</title>
       <meta name="description" content={description} />

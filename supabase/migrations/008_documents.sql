@@ -1,4 +1,6 @@
 -- 008_documents.sql
+create type doc_category as enum ('contract', 'proposal', 'invoice', 'receipt', 'other');
+
 create table documents (
     id uuid primary key default uuid_generate_v4(),
     client_id uuid references clients(id) on delete set null,

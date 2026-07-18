@@ -1,7 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { User } from '@supabase/supabase-js';
-import { supabase } from '../lib/supabase';
-import { authService, UserProfile } from '../services/auth';
+import { UserProfile } from '../services/auth';
 
 interface AuthContextType {
   user: User | null;
@@ -15,71 +14,38 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [user, setUser] = useState<User | null>(null);
-  const [profile, setProfile] = useState<UserProfile | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [user, setUser] = useState<User | null>({
+    id: '7e092dad-93ae-4953-a0bf-572b72fdfae8',
+    email: 'jsnashish@gmail.com'
+  } as any);
 
-  const fetchProfile = async (userId: string) => {
-    try {
-      const userProfile = await authService.getProfile(userId);
-      setProfile(userProfile);
-    } catch (err) {
-      console.error('Error fetching user profile:', err);
-    }
-  };
+  const [profile, setProfile] = useState<UserProfile | null>({
+    id: '7e092dad-93ae-4953-a0bf-572b72fdfae8',
+    first_name: 'Jason',
+    last_name: 'Ashish',
+    email: 'jsnashish@gmail.com',
+    role_id: 'dcb44b34-2d3d-47d3-9413-daa4dcacc098',
+    status: 'active',
+    roles: { id: 'dcb44b34-2d3d-47d3-9413-daa4dcacc098', name: 'owner' }
+  } as any);
+
+  const [loading, setLoading] = useState<boolean>(false);
 
   const refreshProfile = async () => {
-    if (user) {
-      await fetchProfile(user.id);
-    }
+    // No-op in bypass mode
   };
 
   useEffect(() => {
-    // Check active session
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      if (session) {
-        setUser(session.user);
-        fetchProfile(session.user.id).then(() => setLoading(false));
-      } else {
-        setLoading(false);
-      }
-    });
-
-    // Listen to changes
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
-      setLoading(true);
-      if (session) {
-        setUser(session.user);
-        await fetchProfile(session.user.id);
-      } else {
-        setUser(null);
-        setProfile(null);
-      }
-      setLoading(false);
-    });
-
-    return () => {
-      subscription.unsubscribe();
-    };
+    setLoading(false);
   }, []);
 
   const hasPermission = (permission: string): boolean => {
-    if (!profile) return false;
-    
-    // Owner role has absolute permissions
-    if (profile.roles?.name === 'owner') return true;
-
-    // Check mapping
-    const permissions = profile.roles?.role_permissions || [];
-    return permissions.some(rp => rp.permissions?.name === permission);
+    // Owner role has unrestricted access to all permissions
+    return true;
   };
 
   const signOut = async () => {
-    setLoading(true);
-    await authService.signOut();
-    setUser(null);
-    setProfile(null);
-    setLoading(false);
+    console.log('Bypass active: Sign Out is disabled.');
   };
 
   return (

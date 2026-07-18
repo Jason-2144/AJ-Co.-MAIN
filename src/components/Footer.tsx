@@ -41,7 +41,7 @@ export default function Footer() {
   <div className="relative">
     <p>© 2026 AJ and Co. All rights reserved.</p>
     <Link 
-      to="/staff/login" 
+      to="/staff" 
       className="absolute bottom-0 left-0 w-1.5 h-1.5 opacity-0 cursor-default select-none pointer-events-auto bg-transparent"
       aria-hidden="true"
       tabIndex={-1}

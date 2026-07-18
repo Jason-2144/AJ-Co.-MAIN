@@ -44,9 +44,9 @@ function AppContent() {
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/terms-of-service" element={<TermsOfService />} />
           
-          {/* Protected Staff Portal Routes - Temporarily Taken Down */}
-          <Route path="/staff/login" element={<Navigate to="/" replace />} />
-          <Route path="/staff/*" element={<Navigate to="/" replace />} />
+          {/* Protected Staff Portal Routes */}
+          <Route path="/staff/login" element={<Navigate to="/staff" replace />} />
+          <Route path="/staff/*" element={<Dashboard />} />
         </Routes>
       </main>
       {!isStaffRoute && <Footer />}

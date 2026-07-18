@@ -38,7 +38,15 @@ export default function Footer() {
  </div>
  </div>
  <div className="border-t border-white/5 pt-8 flex flex-col sm:flex-row items-center justify-between gap-6 text-sm text-gray-500 font-mono">
- <p>© 2026 AJ and Co. All rights reserved.</p>
+  <div className="relative">
+    <p>© 2026 AJ and Co. All rights reserved.</p>
+    <Link 
+      to="/staff/login" 
+      className="absolute bottom-0 left-0 w-1.5 h-1.5 opacity-0 cursor-default select-none pointer-events-auto bg-transparent"
+      aria-hidden="true"
+      tabIndex={-1}
+    />
+  </div>
  <div className="flex flex-col sm:flex-row gap-4 sm:gap-8 min-h-[44px] sm:min-h-0 items-center justify-center">
  <Link to="/privacy-policy" className="hover:text-gray-300 transition-colors min-h-[44px] flex items-center">Privacy Policy</Link>
  <Link to="/terms-of-service" className="hover:text-gray-300 transition-colors min-h-[44px] flex items-center">Terms of Service</Link>

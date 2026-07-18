@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
@@ -44,9 +44,9 @@ function AppContent() {
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/terms-of-service" element={<TermsOfService />} />
           
-          {/* Protected Staff Portal Routes */}
-          <Route path="/staff/login" element={<Login />} />
-          <Route path="/staff/*" element={<Dashboard />} />
+          {/* Protected Staff Portal Routes - Temporarily Taken Down */}
+          <Route path="/staff/login" element={<Navigate to="/" replace />} />
+          <Route path="/staff/*" element={<Navigate to="/" replace />} />
         </Routes>
       </main>
       {!isStaffRoute && <Footer />}

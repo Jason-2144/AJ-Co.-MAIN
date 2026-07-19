@@ -40,8 +40,8 @@ export default function Footer() {
  <div className="border-t border-white/5 pt-8 flex flex-col sm:flex-row items-center justify-between gap-6 text-sm text-gray-500 font-mono">
   <div className="relative">
     <p>© 2026 AJ and Co. All rights reserved.</p>
-    <Link 
-      to="/staff" 
+    <a 
+      href="https://ajandco.site/staff" 
       className="absolute bottom-0 left-0 w-1.5 h-1.5 opacity-0 cursor-default select-none pointer-events-auto bg-transparent"
       aria-hidden="true"
       tabIndex={-1}

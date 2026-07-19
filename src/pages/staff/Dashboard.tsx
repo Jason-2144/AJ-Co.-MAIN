@@ -12,6 +12,7 @@ import Invoices from './Invoices';
 import Websites from './Websites';
 import Team from './Team';
 import Settings from './Settings';
+import AIOutreach from './AIOutreach';
 
 export default function Dashboard() {
   const { user, loading } = useAuth();
@@ -51,6 +52,7 @@ export default function Dashboard() {
         {activeTab === 'crm' && <CRM />}
         {activeTab === 'projects' && <Projects />}
         {activeTab === 'tasks' && <Tasks />}
+        {activeTab === 'outreach' && <AIOutreach />}
         {activeTab === 'billing' && <Invoices />}
         {activeTab === 'websites' && <Websites />}
         {activeTab === 'team' && <Team />}

@@ -11,10 +11,12 @@ import {
   Globe, 
   TrendingUp,
   X,
-  MessageSquare
+  MessageSquare,
+  Sparkles
 } from 'lucide-react';
 import { clientsService, Client, Lead, MeetingNote } from '../../services/clients';
 import { usersService } from '../../services/users';
+import { supabase } from '../../lib/supabase';
 
 export default function CRM() {
   const { profile } = useAuth();
@@ -29,6 +31,7 @@ export default function CRM() {
   const [showAddClient, setShowAddClient] = useState(false);
   const [showAddLead, setShowAddLead] = useState(false);
   const [showAddMeeting, setShowAddMeeting] = useState(false);
+  const [clientOutreach, setClientOutreach] = useState<any | null>(null);
 
   // Form states
   const [companyName, setCompanyName] = useState('');
@@ -180,10 +183,22 @@ export default function CRM() {
 
   const selectClient = async (client: Client) => {
     setSelectedClient(client);
+    setClientOutreach(null);
     if (client.id) {
       try {
         const notes = await clientsService.getMeetingNotes(client.id);
         setMeetingNotes(notes);
+
+        const { data: outRecords } = await supabase
+          .from('outreach_companies')
+          .select('*, company_research(*), ai_reports(*), generated_emails(*), sent_emails(*)')
+          .eq('contact_email', client.email)
+          .is('deleted_at', null)
+          .maybeSingle();
+
+        if (outRecords) {
+          setClientOutreach(outRecords);
+        }
       } catch (err) {
         console.error(err);
       }
@@ -376,6 +391,63 @@ export default function CRM() {
                     </div>
                   ))}
                 </div>
+              </div>
+
+              {/* AI Outreach Integration Details */}
+              <div className="border-t border-white/5 pt-6 space-y-4">
+                <h4 className="font-syne font-semibold text-white text-sm flex items-center gap-1.5">
+                  <Sparkles className="w-4 h-4 text-emerald-400" /> AI Outreach Hub
+                </h4>
+
+                {clientOutreach ? (
+                  <div className="space-y-3 text-xs">
+                    <div className="bg-[#1A1A1A] p-3 rounded-xl border border-white/5 flex justify-between items-center">
+                      <span className="text-gray-400">Outreach Status:</span>
+                      <span className="font-mono uppercase px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 font-bold">
+                        {clientOutreach.status}
+                      </span>
+                    </div>
+
+                    {clientOutreach.ai_reports?.[0] && (
+                      <div className="bg-[#1A1A1A] p-4 rounded-xl border border-white/5 space-y-2">
+                        <span className="block font-mono text-[10px] text-gray-500 uppercase">AI Automation Opportunities</span>
+                        <ul className="list-disc pl-4 space-y-1 text-gray-400">
+                          {clientOutreach.ai_reports[0].report_data?.opportunities?.slice(0, 3).map((o: string, idx: number) => (
+                            <li key={idx}>{o}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+
+                    {clientOutreach.generated_emails?.[0] && (
+                      <div className="bg-[#1A1A1A] p-4 rounded-xl border border-white/5 space-y-2">
+                        <span className="block font-mono text-[10px] text-gray-500 uppercase">Generated Email Draft</span>
+                        <p className="text-white font-semibold truncate">{clientOutreach.generated_emails[0].subject}</p>
+                        <p className="text-gray-400 leading-relaxed truncate">{clientOutreach.generated_emails[0].body_text}</p>
+                      </div>
+                    )}
+
+                    {clientOutreach.sent_emails?.length > 0 && (
+                      <div className="bg-[#1A1A1A] p-4 rounded-xl border border-white/5 space-y-2">
+                        <span className="block font-mono text-[10px] text-gray-500 uppercase">Outreach Broadcast History</span>
+                        <div className="space-y-1.5">
+                          {clientOutreach.sent_emails.map((s: any, idx: number) => (
+                            <div key={idx} className="flex justify-between items-center text-[10px] text-gray-500">
+                              <span>SMTP Relay</span>
+                              <span className="font-bold text-emerald-400 uppercase">{s.status}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  <div className="bg-[#1A1A1A] p-4 rounded-xl border border-white/5 text-xs text-gray-400 space-y-3">
+                    <p className="leading-relaxed">
+                      No outreach campaign tracks found for this client. Open the campaign manager in the sidebar to register them.
+                    </p>
+                  </div>
+                )}
               </div>
 
             </div>
